@@ -1,2 +1,2 @@
-# STM-C-
+# STM-C++
 C++ Drivers for STM
