@@ -21,7 +21,7 @@ TIMER::TIMER(TIM_TypeDef *TIMx, float ms)
 {
   RCC_ClocksTypeDef RCC_Clocks;
   NVIC_InitTypeDef NVIC_InitStructure;
-  uint32_t freq = 0;
+ 
   uint32_t timerPeriph;
   uint16_t division = 0;
   uint8_t IrqChannel = 0;
@@ -35,85 +35,85 @@ TIMER::TIMER(TIM_TypeDef *TIMx, float ms)
   {
     timerPeriph = RCC_APB2Periph_TIM1;
     IrqChannel = TIM1_UP_TIM10_IRQn;
-    freq = RCC_Clocks.PCLK2_Frequency;
+    this->freq = RCC_Clocks.PCLK2_Frequency;
   }
   else if (_TIMx == TIM2)
   {
     timerPeriph = RCC_APB1Periph_TIM2;
     IrqChannel = TIM2_IRQn;
-    freq = RCC_Clocks.PCLK1_Frequency;
+    this->freq = RCC_Clocks.PCLK1_Frequency;
   }
   else if (_TIMx == TIM3)
   {
     timerPeriph = RCC_APB1Periph_TIM3;
     IrqChannel = TIM3_IRQn;
-    freq = RCC_Clocks.PCLK1_Frequency;
+    this->freq = RCC_Clocks.PCLK1_Frequency;
   }
   else if (_TIMx == TIM4)
   {
     timerPeriph = RCC_APB1Periph_TIM4;
     IrqChannel = TIM4_IRQn;
-    freq = RCC_Clocks.PCLK1_Frequency;
+    this->freq = RCC_Clocks.PCLK1_Frequency;
   }
   else if (_TIMx == TIM5)
   {
     timerPeriph = RCC_APB1Periph_TIM5;
     IrqChannel = TIM5_IRQn;
-    freq = RCC_Clocks.PCLK1_Frequency;
+    this->freq = RCC_Clocks.PCLK1_Frequency;
   }
   else if (_TIMx == TIM6)
   {
     timerPeriph = RCC_APB1Periph_TIM6;
     IrqChannel = TIM6_IRQn;
-    freq = RCC_Clocks.PCLK1_Frequency;
+    this->freq = RCC_Clocks.PCLK1_Frequency;
   }
   else if (_TIMx == TIM7)
   {
     timerPeriph = RCC_APB1Periph_TIM7;
     IrqChannel = TIM7_IRQn;
-    freq = RCC_Clocks.PCLK1_Frequency;
+    this->freq = RCC_Clocks.PCLK1_Frequency;
   }
   else if (_TIMx == TIM8)
   {
     timerPeriph = RCC_APB2Periph_TIM8;
     IrqChannel = TIM8_UP_TIM13_IRQn;
-    freq = RCC_Clocks.PCLK2_Frequency;
+    this->freq = RCC_Clocks.PCLK2_Frequency;
   }
   else if (_TIMx == TIM9)
   {
     timerPeriph = RCC_APB2Periph_TIM9;
     IrqChannel = TIM1_BRK_TIM9_IRQn;
-    freq = RCC_Clocks.PCLK2_Frequency;
+    this->freq = RCC_Clocks.PCLK2_Frequency;
   }
   else if (_TIMx == TIM10)
   {
     timerPeriph = RCC_APB2Periph_TIM10;
     IrqChannel = TIM1_UP_TIM10_IRQn;
-    freq = RCC_Clocks.PCLK2_Frequency;
+    this->freq = RCC_Clocks.PCLK2_Frequency;
   }
   else if (_TIMx == TIM11)
   {
     timerPeriph = RCC_APB2Periph_TIM11;
     IrqChannel = TIM1_TRG_COM_TIM11_IRQn;
-    freq = RCC_Clocks.PCLK2_Frequency;
+    this->freq = RCC_Clocks.PCLK2_Frequency;
   }
   else if (_TIMx == TIM12)
   {
     timerPeriph = RCC_APB1Periph_TIM12;
     IrqChannel = TIM8_BRK_TIM12_IRQn;
-    freq = RCC_Clocks.PCLK1_Frequency;
+    this->freq = RCC_Clocks.PCLK1_Frequency;
   }
   else if (_TIMx == TIM13)
   {
     timerPeriph = RCC_APB1Periph_TIM13;
     IrqChannel = TIM8_UP_TIM13_IRQn;
-    freq = RCC_Clocks.PCLK1_Frequency;
+    this->freq = RCC_Clocks.PCLK1_Frequency;
   }
   else if (_TIMx == TIM14)
   {
     timerPeriph = RCC_APB1Periph_TIM14;
     IrqChannel = TIM8_TRG_COM_TIM14_IRQn;
-    freq = RCC_Clocks.PCLK1_Frequency;
+    this->freq = RCC_Clocks.PCLK1_Frequency;
   }
   
 
@@ -126,12 +126,15 @@ TIMER::TIMER(TIM_TypeDef *TIMx, float ms)
     RCC_APB1PeriphClockCmd(timerPeriph, ENABLE);
   }
 
-  float TimeS = (ms / 1000.0);
-  uint32_t uwPrescalerValue;// = (uint32_t)( freq / (1 / TimeS ) ) - 1;
-  uwPrescalerValue = (uint32_t)(SystemCoreClock / 100000) - 1;
+  float TimeS = ms;// / 1000.0);
+  TimeS = 1/TimeS;
+  uint32_t u32_PrescalerValue  = (uint32_t)(TimeS*1000);//100000;
+  uint32_t u32_TimerValue  = TimeS;
+  uint16_t u16_PeriodValue = (uint16_t)(u32_PrescalerValue/u32_TimerValue);
+  
   TIM_TimeBaseStructInit(&TIM_TimeBaseStructure);
-  TIM_TimeBaseStructure.TIM_Period = 999;
-  TIM_TimeBaseStructure.TIM_Prescaler = uwPrescalerValue; /* Prescale to 1Mhz */
+  TIM_TimeBaseStructure.TIM_Prescaler = (uint16_t)(freq/u32_PrescalerValue)-1; /* Prescale to 1Mhz */
+  TIM_TimeBaseStructure.TIM_Period = (uint16_t)(u16_PeriodValue)-1;
   TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
   TIM_TimeBaseStructure.TIM_ClockDivision = 0;
 

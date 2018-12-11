@@ -17,7 +17,7 @@
 #include "timer.h"
 
 void button_handler(void);
-
+void timer_intterupt(void);
 TIMER *tim;
 GPIO r(GPIOF, GPIO_Pin_6, GPIO_Mode_Out_OD);
 GPIO g(GPIOF, GPIO_Pin_7, GPIO_Mode_Out_OD);
@@ -44,23 +44,19 @@ int main()
     0
   };
   SystemStart();
-  
-//  TIMER tim(TIM2, 0.1);
+    
   GPIO btn(GPIOC,GPIO_Pin_5,GPIO_Mode_IPU);
   btn.attach_interrupt(button_handler);
- 
+  
   
   while (1)
   {   
    
-    tim = new TIMER(timers[current_timer],0.1);
-    tim->delay(10);
-    r.write(!g.read());
-    tim->delay(10);
-    g.write(!b.read());
-    tim->delay(10);
-    b.write(!r.read());
-    tim->delay(10);
+    tim = new TIMER(timers[current_timer],0.1);//100us
+    tim->attach_intterupt(timer_intterupt);
+    tim->delay(1);
+    r.write(!r.read()); g.write(!g.read());b.write(!b.read());
+    
     printf("%d\r\n",current_timer+1);
     if(timers[current_timer+1] == 0) current_timer = 0;
     else current_timer ++;
@@ -68,6 +64,10 @@ int main()
     
     
   }
+}
+void timer_intterupt(void){
+//  cout<<"Tick\r\n";
+//   r.write(!r.read());
 }
 void button_handler(void){
   cout<<"Button\r\n";

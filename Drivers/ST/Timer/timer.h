@@ -30,7 +30,7 @@ class TIMER
     TIM_TypeDef *_TIMx;
     uint32_t cnt;
     uint32_t runTime;
-
+    uint32_t freq ;
 
   public:
     TIMER(TIM_TypeDef *TIMx,float ms);
