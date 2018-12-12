@@ -15,13 +15,14 @@
  * 
  */
 #include "api_system_startup.h"
-
-void SystemStart(void)
+uint32_t u32_system_tick;
+uint32_t u32_system_delay_tick;
+void api_system_start(void)
 {
     SystemInit();
     SystemCoreClockUpdate();
 
-    init_SysTick_Configuration();
+    api_system_init_tick();
 
     NVIC_SetVectorTable(NVIC_VectTab_FLASH, 0x00);
     NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2); /* Configure the Priority Group to 2 bits */
@@ -31,7 +32,7 @@ void SystemStart(void)
  * @brief Set up system tick to 1ms
  * 
  */
-void init_SysTick_Configuration(void)
+void api_system_init_tick(void)
 {
     /* Code */
     NVIC_SetPriority(SysTick_IRQn, 0x0);  /* Configure the SysTick handler priority */
@@ -45,4 +46,37 @@ void init_SysTick_Configuration(void)
     }
 
     return;
+}
+/**
+ * @brief ms delay counter
+ * 
+ */
+void api_system_cntr(void)
+{
+    if (u32_system_delay_tick)
+        u32_system_delay_tick--;
+    u32_system_delay_tick++;
+}
+
+/**
+ * @brief delay ms
+ * 
+ * @param count 
+ */
+void api_ms_delay(uint32_t count)
+{
+    u32_system_delay_tick = count;
+    while (u32_system_delay_tick)
+        ;
+}
+
+/**
+ * @brief read the system tick counter
+ * 
+ * @return uint32_t 
+ */
+uint32_t api_system_tick_read(void)
+{
+
+    return u32_system_delay_tick;
 }

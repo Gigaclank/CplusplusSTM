@@ -13,11 +13,11 @@
 #include <stdint.h>
 #include <iostream>
 #include "stm32f10x_it.h"
+#include "api_system_startup.h"
 
-uint32_t SysTicTimer = 0;
 void (*exti_callback[16])(void);
 void (*timer_callback[18])(void);
-TIMER *timer[16];
+void (*rtc_callback[2])(void);
 
 void NMIException(void)
 {
@@ -62,7 +62,7 @@ void PendSVC(void)
 }
 void SysTick_Handler(void)
 {
-  SysTicTimer++;
+  api_system_cntr();
 }
 /* Window Watch Dog Interrupts */
 void WWDG_IRQHandler(void)
@@ -252,7 +252,6 @@ void CAN_RX1_IRQHandler(void)
 void CAN_SCE_IRQHandler(void)
 {
 }
-
 /* Timers */
 void TIM1_BRK_TIM9_IRQHandler(void)
 {
@@ -396,7 +395,7 @@ void TIM6_IRQHandler(void)
 {
   if (TIM_GetFlagStatus(TIM6, TIM_FLAG_Update) != RESET)
   {
-     if (timer_callback[5])
+    if (timer_callback[5])
       timer_callback[5]();
     if (timer[5])
       timer[5]->cntr();
@@ -532,11 +531,14 @@ void RTC_IRQHandler(void)
 {
   if (RTC_GetITStatus(RTC_IT_SEC) != RESET)
   {
+    if(rtc_callback[0])rtc_callback[0]();
     RTC_ClearITPendingBit(RTC_IT_SEC); /* Clear the RTC Second interrupt */
   }
 
   if (RTC_GetITStatus(RTC_IT_ALR) != RESET)
   {
+    
+    if(rtc_callback[1])rtc_callback[1]();
     RTC_ClearITPendingBit(RTC_IT_ALR); /* Clear the RTC Alarm interrupt */
   }
 

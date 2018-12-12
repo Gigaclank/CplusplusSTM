@@ -16,9 +16,11 @@
 #include "stm32f10x_exti.h"
 #include "stm32f10x_tim.h"
 #include "timer.h"
+
 extern uint32_t SysTicTimer;
 extern void (*exti_callback[16])(void);
 extern void (*timer_callback[18])(void);
+extern void (*rtc_callback[2])(void);
 
 void ResetHandler(void);
 void NMIException(void);

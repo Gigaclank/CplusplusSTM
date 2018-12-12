@@ -12,7 +12,9 @@ All drivers have been built using IAR.
 ## Implemented ##
 * GPIO 
 * Timers
+* RTC
 * UART - implemented not tested
+
 
 ---
 ### TODO ###
@@ -27,7 +29,6 @@ All drivers have been built using IAR.
 * Implement EEPROM Drivers
 * Implement PWR Drivers
 * Implement CRC Drivers
-* Implement RTC Drivers
 * Implement SDIO Drivers
 * Implement CEC Drivers
 * Implement CAN Drivers
@@ -35,7 +36,9 @@ All drivers have been built using IAR.
 * Implement DMA Drivers
 
 #### Examples ####
-Current main.cpp -Implements GPIO with interrupt cycles through all 14 timers and changes states of pins for an led.
+gpio_main.cpp   - Implements GPIO with interrupt and toggles led pins.
+timer_main.cpp  - Cycles through all 14 timers and delays for 1 count of the timer count
+rtc_main.cpp    - Starts up the rtc and attaches an interrupt handler to the rtc tick.
 
 ---
 <p align="center" z-index = "-1">

@@ -17,7 +17,9 @@
 #include "misc.h"
 #include "system_stm32f10x.h"
 
-void init_SysTick_Configuration(void);
-void SystemStart(void);
+void api_system_init_tick(void);
+void api_system_start(void);
+void api_system_cntr(void);
+void api_ms_delay(uint32_t count);
 
 #endif

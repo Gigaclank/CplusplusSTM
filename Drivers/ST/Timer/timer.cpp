@@ -11,6 +11,7 @@
  */
 #include "timer.h"
 
+TIMER *timer[16];
 /**
  * @brief Construct a new TIMER::TIMER object
  * 
@@ -155,7 +156,7 @@ TIMER::TIMER(TIM_TypeDef *TIMx, float ms)
 
 
 /**
- * @brief Construct a new TIMER::TIMER object
+ * @brief Deconstruct TIMER object
  * 
  * @param TIMx 
  * @param ms 
