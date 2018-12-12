@@ -37,10 +37,10 @@ All drivers have been built using IAR.
 * Implement DMA Drivers
 
 #### Examples ####
-gpio_main.cpp   - Implements GPIO with interrupt and toggles led pins.
-timer_main.cpp  - Cycles through all 14 timers and delays for 1 count of the timer count
-rtc_main.cpp    - Starts up the rtc and attaches an interrupt handler to the rtc tick.
-iwdg_main.cpp   - Starts up the iwdg for 2 seconds timeout and reloads the iwdg in the main loop.
+* gpio_main.cpp   - Implements GPIO with interrupt and toggles led pins.
+* timer_main.cpp  - Cycles through all 14 timers and delays for 1 count of the timer count
+* rtc_main.cpp    - Starts up the rtc and attaches an interrupt handler to the rtc tick.
+* iwdg_main.cpp   - Starts up the iwdg for 2 seconds timeout and reloads the iwdg in the main loop.
 
 ---
 <p align="center" z-index = "-1">
