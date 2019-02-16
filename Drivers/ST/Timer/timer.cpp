@@ -24,7 +24,7 @@ TIMER::TIMER(TIM_TypeDef *TIMx, float ms)
   NVIC_InitTypeDef NVIC_InitStructure;
  
   uint32_t timerPeriph;
-  uint16_t division = 0;
+//  uint16_t division = 0;
   uint8_t IrqChannel = 0;
   _TIMx = TIMx;
   RCC_GetClocksFreq(&RCC_Clocks);
@@ -130,7 +130,7 @@ TIMER::TIMER(TIM_TypeDef *TIMx, float ms)
   float TimeS = ms;// / 1000.0);
   TimeS = 1/TimeS;
   uint32_t u32_PrescalerValue  = (uint32_t)(TimeS*1000);//100000;
-  uint32_t u32_TimerValue  = TimeS;
+  uint32_t u32_TimerValue  = (uint32_t)TimeS;
   uint16_t u16_PeriodValue = (uint16_t)(u32_PrescalerValue/u32_TimerValue);
   
   TIM_TimeBaseStructInit(&TIM_TimeBaseStructure);

@@ -36,9 +36,15 @@ class STM_SPI
 
   public:
     STM_SPI(SPI_TypeDef *spi_x);
+    STM_SPI(SPI_TypeDef *spi_x, spi_mode mode);
+    STM_SPI::STM_SPI(SPI_TypeDef *spi_x, uint32_t speed);
+    STM_SPI(SPI_TypeDef *spi_x, spi_mode mode, uint32_t speed);
+
     ~STM_SPI();
 
     void change_mode(spi_mode mode);
+    void change_speed(uint32_t speed);
+    uint8_t rdwr(uint8_t wr_byte);
 };
 
 #endif
