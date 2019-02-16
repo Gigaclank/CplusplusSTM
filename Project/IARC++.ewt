@@ -5486,6 +5486,15 @@
         </file>
       </group>
       <group>
+        <name>SPI</name>
+        <file>
+          <name>$PROJ_DIR$\..\Drivers\ST\SPI\spi.cpp</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\Drivers\ST\SPI\spi.h</name>
+        </file>
+      </group>
+      <group>
         <name>Timer</name>
         <file>
           <name>$PROJ_DIR$\..\Drivers\ST\Timer\timer.cpp</name>

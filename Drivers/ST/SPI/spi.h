@@ -12,11 +12,33 @@
 #ifndef _SPI_H
 #define _SPI_H
 
+#include "stm32f10x.h"
+#include "stm32f10x_spi.h"
+#include "stm32f10x_gpio.h"
+#include "stm32f10x_rcc.h"
+#include "gpio.h"
+
+typedef enum spi_mode
+{
+    SPI_MODE_0,
+    SPI_MODE_1,
+    SPI_MODE_2,
+    SPI_MODE_3,
+} spi_mode;
+
 class STM_SPI
 {
-
   private:
+    SPI_TypeDef *_spi;
+    void set_up_pins();
+    void setup_defaults();
+    SPI_InitTypeDef spi_config;
+
   public:
+    STM_SPI(SPI_TypeDef *spi_x);
+    ~STM_SPI();
+
+    void change_mode(spi_mode mode);
 };
 
 #endif

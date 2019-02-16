@@ -4196,6 +4196,7 @@
           <state>$PROJ_DIR$\..\Drivers\ST\RTC</state>
           <state>$PROJ_DIR$\..\Drivers\ST\IWDG</state>
           <state>$PROJ_DIR$\..\Drivers\ST\BKP</state>
+          <state>$PROJ_DIR$\..\Drivers\ST\SPI</state>
         </option>
         <option>
           <name>CCStdIncCheck</name>
@@ -5108,6 +5109,15 @@
         </file>
         <file>
           <name>$PROJ_DIR$\..\Drivers\ST\RTC\rtc.h</name>
+        </file>
+      </group>
+      <group>
+        <name>SPI</name>
+        <file>
+          <name>$PROJ_DIR$\..\Drivers\ST\SPI\spi.cpp</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\Drivers\ST\SPI\spi.h</name>
         </file>
       </group>
       <group>
