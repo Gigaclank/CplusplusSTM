@@ -15,7 +15,7 @@ All drivers have been built using IAR.
 * RTC
 * IWDG 
 * UART - implemented not tested
-
+* BKP
 
 ---
 ### TODO ###
@@ -33,7 +33,6 @@ All drivers have been built using IAR.
 * Implement SDIO Drivers
 * Implement CEC Drivers
 * Implement CAN Drivers
-* Implement BKP Drivers
 * Implement DMA Drivers
 
 #### Examples ####
