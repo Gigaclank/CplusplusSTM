@@ -22,7 +22,7 @@ class STM_BKP
   private:
   public:
     STM_BKP();
-//    ~STM_BKP();
+    ~STM_BKP();
     uint16_t read(uint16_t reg);
     void write(uint16_t reg, uint16_t val);
 };

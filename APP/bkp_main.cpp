@@ -18,17 +18,17 @@ int main()
 {
   
   api_system_start();
-  STM_BKP *bkp;
+  STM_BKP bkp;
   uint16_t reg;
-  bkp = new STM_BKP();
+//  bkp = new STM_BKP();
   while (1)
   {   
-    reg = bkp->read_reg(BKP_DR1);
+    reg = bkp.read(BKP_DR1);
     if(reg == 0xAABB){
       cout<<reg<<"\r\n";
     }else{
       cout<<reg<<"\r\n";
-      bkp->write_reg(BKP_DR1,0xAABB);
+      bkp.write(BKP_DR1,0xAABB);
     }
   }
 }
