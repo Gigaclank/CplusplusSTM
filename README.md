@@ -16,17 +16,16 @@ All drivers have been built using IAR.
 * IWDG 
 * UART - implemented not tested
 * BKP
+* SPI
 
 ---
 ### TODO ###
 * Implment PWM channels for each timer
 * Test UART Drivers
-* Implement SPI Drivers
 * Implement DAC Drivers
 * Implement I2C Drivers
 * Implement ADC Drivers
 * Implement Window Watchdog Drivers
-* Implement Independent Watchdog Drivers
 * Implement EEPROM Drivers
 * Implement PWR Drivers
 * Implement CRC Drivers
