@@ -10,25 +10,23 @@ Welcome to STM32-Drivers - a C++ variation on the standard peripheral drivers.
 All drivers have been built using IAR.
 ---
 ## Implemented ##
-* GPIO 
+* GPIO
 * Timers
 * RTC
-* IWDG 
-* UART - implemented not tested
+* IWDG
+* UART
 * BKP
 * SPI
+* CRC
+* ADC
 
 ---
 ### TODO ###
-* Implment PWM channels for each timer
-* Test UART Drivers
 * Implement DAC Drivers
 * Implement I2C Drivers
-* Implement ADC Drivers
 * Implement Window Watchdog Drivers
 * Implement EEPROM Drivers
 * Implement PWR Drivers
-* Implement CRC Drivers
 * Implement SDIO Drivers
 * Implement CEC Drivers
 * Implement CAN Drivers

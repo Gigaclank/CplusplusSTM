@@ -55,7 +55,7 @@ void api_system_cntr(void)
 {
     if (u32_system_delay_tick)
         u32_system_delay_tick--;
-    u32_system_delay_tick++;
+//    u32_system_delay_tick++;
 }
 
 /**

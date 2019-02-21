@@ -37,22 +37,25 @@
 class USART
 {
   private:
+    USART_InitTypeDef USART_InitStructure;
+    void get_pins(GPIO_TypeDef *tx_port, GPIO_TypeDef *rx_port, uint16_t *tx_pin, uint16_t *rx_pin);
+    void setup_nvic(void);
+    void init_rx_buf(void);
+    void init_tx_buf(void);
+    void isr(void);
+
+  public:
+    USART_TypeDef *_uart;
+    GPIO *cts, *rts;
     uint8_t rx_buffer_a_u8_glb[UART_RX_BUFFER_SIZE];
     uint8_t tx_buffer_a_u8_glb[UART_TX_BUFFER_SIZE];
-    USART_TypeDef *_uart;
-    GPIO_TypeDef *_cts_port, *_rts_port;
-    uint16_t _cts_pin, _rts_pin;
-    USART_InitTypeDef USART_InitStructure;
-    GPIO *cts, *rts;
-    struct
-    {
+    struct{
         uint8_t wr_index_u8;
         uint8_t rd_index_u8;
         uint8_t cnt_u8;
-        union {
+        union{
             uint8_t byte;
-            struct
-            {
+            struct{
                 uint8_t overflow : 1;
                 uint8_t empty : 1;
                 uint8_t flow_stop : 1;
@@ -61,21 +64,16 @@ class USART
         } flags;
         volatile uint16_t timeout_timer_u16;
     } st_rx_glb, st_tx_glb;
-
-    void get_pins(GPIO_TypeDef *tx_port, GPIO_TypeDef *rx_port, uint16_t *tx_pin, uint16_t *rx_pin);
-    void setup_nvic(void);
-    void init_rx_buf(void);
-    void init_tx_buf(void);
-    void isr(void);
-
-  public:
-//    USART(USART_TypeDef *uart,uint8_t flowControl = 0, uint32_t baud = 115200);
-//    USART(USART_TypeDef *uart,uint8_t flowControl = 0, uint32_t baud= 115200, uint16_t WordLength = USART_WordLength_8b);
-//    USART(USART_TypeDef *uart,uint8_t flowControl = 0, uint32_t baud= 115200, uint16_t WordLength= USART_WordLength_8b, uint16_t StopBits = USART_StopBits_1);
+    
     USART(USART_TypeDef *uart,uint8_t flowControl = 0, uint32_t baud= 115200, uint16_t WordLength= USART_WordLength_8b, uint16_t StopBits = USART_StopBits_1, uint16_t parity =USART_Parity_No);
 
     void timer_control(void);
-    uint8_t getchar(uint16_t wait_time_u16, uint8_t *rec_status_u8);
-    void putchar(uint8_t tx_char_u8);
+    uint8_t read(uint16_t wait_time_u16, uint8_t *rec_status_u8);
+    void write(uint8_t tx_char_u8);
+    void flowcontrol(GPIO *rt, GPIO *ct);
 };
+
+void uart_isr(uint8_t uartCh);
+
+#include "print.h"
 #endif

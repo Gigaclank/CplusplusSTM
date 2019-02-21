@@ -44,7 +44,7 @@ int main()
   while (1)
   {   
    
-    tim = new TIMER(timers[current_timer],0.1);//100us
+    tim = new TIMER(timers[current_timer],0.1);//100ms
     tim->attach_intterupt(timer_intterupt);
     tim->delay(1);
     

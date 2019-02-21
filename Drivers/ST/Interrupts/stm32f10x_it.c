@@ -14,10 +14,12 @@
 #include <iostream>
 #include "stm32f10x_it.h"
 #include "api_system_startup.h"
+#include "uart.h"
 
 void (*exti_callback[16])(void);
 void (*timer_callback[18])(void);
 void (*rtc_callback[2])(void);
+void (*uart_callback[5])(void);
 
 void NMIException(void)
 {
@@ -509,18 +511,23 @@ void SPI3_IRQHandler(void)
 /* USART Interrupts */
 void USART1_IRQHandler(void)
 {
+   uart_isr(1);
 }
 void USART2_IRQHandler(void)
 {
+  uart_isr(2);
 }
 void USART3_IRQHandler(void)
 {
+ uart_isr(3);
 }
 void UART4_IRQHandler(void)
 {
+  uart_isr(4);
 }
 void UART5_IRQHandler(void)
 {
+  uart_isr(5);
 }
 /* RCC Interrupts */
 void RCC_IRQHandler(void)
@@ -556,6 +563,7 @@ void FSMC_IRQHandler(void)
 void SDIO_IRQHandler(void)
 {
 }
+
 
 /*
 *********************************************************************************************************

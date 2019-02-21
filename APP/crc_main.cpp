@@ -46,9 +46,6 @@ int main()
   
   while (1)
   {   
-    crc.calc_crc((void*)&DataBuffer,BUFFER_SIZE);
-    cout<<hex<<crc.get_crc()<<"\r\n";
-    crc.calc_crc(123456789);
-    cout<<hex<<crc.get_crc()<<"\r\n";
+    cout<<hex<<crc.calc_crc((void*)DataBuffer, 1)<<"\r\n";
   }
 }

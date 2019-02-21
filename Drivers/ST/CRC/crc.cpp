@@ -59,6 +59,7 @@ uint32_t STM_CRC::calc_crc(uint32_t data)
 {
   CRC_ResetDR();
     return CRC_CalcCRC(data);
+//  return 0;
 }
 
 /**
