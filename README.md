@@ -42,6 +42,7 @@ All drivers have been built using IAR.
 * timer_main.cpp  - Cycles through all 14 timers and delays for 1 count of the timer count
 * timer_main_pwm.cpp  - Starts up timers and outputs different pwm values on the the pwm channel pins.
 * pwr_main.cpp    - To be implemented and tested
+* dac_main.cpp    - Output sinewave from buffer using either DMA or polling method.
 
 ---
 <p align="center" z-index = "-1">
