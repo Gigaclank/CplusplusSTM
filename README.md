@@ -19,14 +19,13 @@ All drivers have been built using IAR.
 * SPI
 * CRC
 * ADC
-
+* PWR
+* DAC
 ---
 ### TODO ###
-* Implement DAC Drivers
 * Implement I2C Drivers
 * Implement Window Watchdog Drivers
 * Implement EEPROM Drivers
-* Implement PWR Drivers
 * Implement SDIO Drivers
 * Implement CEC Drivers
 * Implement CAN Drivers
@@ -42,6 +41,7 @@ All drivers have been built using IAR.
 * spi_main.cpp    - Starts up the spi peripheral and writes/reads.
 * timer_main.cpp  - Cycles through all 14 timers and delays for 1 count of the timer count
 * timer_main_pwm.cpp  - Starts up timers and outputs different pwm values on the the pwm channel pins.
+* pwr_main.cpp    - To be implemented and tested
 
 ---
 <p align="center" z-index = "-1">

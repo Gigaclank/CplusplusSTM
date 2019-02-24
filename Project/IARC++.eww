@@ -46,6 +46,14 @@
                 <project>IARC++</project>
                 <configuration>UARTExample</configuration>
             </member>
+            <member>
+                <project>IARC++</project>
+                <configuration>PWRExample</configuration>
+            </member>
+            <member>
+                <project>IARC++</project>
+                <configuration>DACExample</configuration>
+            </member>
         </batchDefinition>
     </batchBuild>
 </workspace>

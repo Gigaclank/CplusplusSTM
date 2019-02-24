@@ -45,22 +45,22 @@
   */
 
 /* ----------- WWDG registers bit address in the alias region ----------- */
-#define WWDG_OFFSET       (WWDG_BASE - PERIPH_BASE)
+#define WWDG_OFFSET (WWDG_BASE - PERIPH_BASE)
 
 /* Alias word address of EWI bit */
-#define CFR_OFFSET        (WWDG_OFFSET + 0x04)
-#define EWI_BitNumber     0x09
-#define CFR_EWI_BB        (PERIPH_BB_BASE + (CFR_OFFSET * 32) + (EWI_BitNumber * 4))
+#define CFR_OFFSET (WWDG_OFFSET + 0x04)
+#define EWI_BitNumber 0x09
+#define CFR_EWI_BB (PERIPH_BB_BASE + (CFR_OFFSET * 32) + (EWI_BitNumber * 4))
 
 /* --------------------- WWDG registers bit mask ------------------------ */
 
 /* CR register bit mask */
-#define CR_WDGA_Set       ((uint32_t)0x00000080)
+#define CR_WDGA_Set ((uint32_t)0x00000080)
 
 /* CFR register bit mask */
-#define CFR_WDGTB_Mask    ((uint32_t)0xFFFFFE7F)
-#define CFR_W_Mask        ((uint32_t)0xFFFFFF80)
-#define BIT_Mask          ((uint8_t)0x7F)
+#define CFR_WDGTB_Mask ((uint32_t)0xFFFFFE7F)
+#define CFR_W_Mask ((uint32_t)0xFFFFFF80)
+#define BIT_Mask ((uint8_t)0x7F)
 
 /**
   * @}
@@ -145,7 +145,7 @@ void WWDG_SetWindowValue(uint8_t WindowValue)
   tmpreg = WWDG->CFR & CFR_W_Mask;
 
   /* Set W[6:0] bits according to WindowValue value */
-  tmpreg |= WindowValue & (uint32_t) BIT_Mask;
+  tmpreg |= WindowValue & (uint32_t)BIT_Mask;
 
   /* Store the new value */
   WWDG->CFR = tmpreg;
@@ -158,7 +158,7 @@ void WWDG_SetWindowValue(uint8_t WindowValue)
   */
 void WWDG_EnableIT(void)
 {
-  *(__IO uint32_t *) CFR_EWI_BB = (uint32_t)ENABLE;
+  *(__IO uint32_t *)CFR_EWI_BB = (uint32_t)ENABLE;
 }
 
 /**
