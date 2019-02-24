@@ -14,7 +14,7 @@
 #include "api_system_startup.h"
 #include "adc.h"
 #include "gpio.h"
-
+using std::cout;
 STM_ADC adc(ADC1);
 GPIO adcPin(GPIOA,GPIO_Pin_1,GPIO_Mode_AIN);
 int main()

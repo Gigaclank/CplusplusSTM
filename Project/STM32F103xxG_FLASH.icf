@@ -47,6 +47,8 @@ place at address mem:__ICFEDIT_intvec_start__ { readonly section .intvec };
 place in ROM_region	{	first block ROM_CONTENT_START,
 						last block ROM_CONTENT_END };
 
-place in RAM_region   { readwrite, block CSTACK, block HEAP };
+place in RAM_region   { readwrite, 
+                        block CSTACK, 
+                        block HEAP };
 
 place in EXTSRAM_region  { readwrite section extsram};

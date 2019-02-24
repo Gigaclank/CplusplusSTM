@@ -14,6 +14,7 @@
 #include <iostream>
 #include "stm32f10x_dbgmcu.h"
 #include "stm32f10x_iwdg.h"
+using std::cout;
 
 class STM_IWDG
 {

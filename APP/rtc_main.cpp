@@ -13,6 +13,8 @@
 #include <iostream>
 #include "api_system_startup.h"
 #include "rtc.h"
+using std::cout;
+
 void tick(void);
 
 RTC_CL *rc;

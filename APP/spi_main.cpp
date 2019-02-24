@@ -13,7 +13,7 @@
 #include <iostream>
 #include "api_system_startup.h"
 #include "spi.h"
-
+using std::cout;
 
 
 int main()

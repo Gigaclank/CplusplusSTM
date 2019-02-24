@@ -15,7 +15,9 @@
 #include "stm32f10x_it.h"
 #include "api_system_startup.h"
 #include "uart.h"
-
+//#ifdef __cplusplus
+//extern "C" {
+//#endif
 void (*exti_callback[16])(void);
 void (*timer_callback[18])(void);
 void (*rtc_callback[2])(void);
@@ -59,7 +61,7 @@ void SVCHandler(void)
 void DebugMonitor(void)
 {
 }
-void PendSVC(void)
+void PendSV_Handler(void)
 {
 }
 void SysTick_Handler(void)
@@ -564,7 +566,9 @@ void SDIO_IRQHandler(void)
 {
 }
 
-
+//#ifdef __cplusplus
+//}
+//#endif
 /*
 *********************************************************************************************************
 *                                           End of stm32f10x_it.c

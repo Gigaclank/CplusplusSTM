@@ -14,6 +14,7 @@
 #include "api_system_startup.h"
 #include "gpio.h"
 #include "uart.h"
+using std::cout;
 
 GPIO tx1(GPIOA,GPIO_Pin_9,GPIO_Mode_AF_PP),rx1(GPIOA,GPIO_Pin_10,GPIO_Mode_IN_FLOATING);
 GPIO tx2(GPIOA,GPIO_Pin_2,GPIO_Mode_AF_PP),rx2(GPIOA,GPIO_Pin_3,GPIO_Mode_IN_FLOATING);

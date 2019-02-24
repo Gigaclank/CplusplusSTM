@@ -15,7 +15,7 @@
 #include "gpio.h"
 #include "uart.h"
 #include "timer.h"
-
+#include "stm32f10x_it.h"
 int main()
 {
   api_system_start();
@@ -32,17 +32,17 @@ int main()
   greenT.set_max_duty(1,255);
   blueT.set_max_duty(1,255);
   
-  redT.setup_pwm(1,0x06);
-  greenT.setup_pwm(1,0xd8);
-  blueT.setup_pwm(1,0x15);
+  redT.setup_pwm(1,255);
+  greenT.setup_pwm(1,131);
+  blueT.setup_pwm(1,0);
   
   while (1)
   {  
-    
-   redT.update_pwm(1,(uint8_t)(0x06));
-   greenT.update_pwm(1,(uint8_t)(0xd8));
-   blueT.update_pwm(1,(uint8_t)(0x15));
-   
+//    
+//   redT.update_pwm(1,(uint8_t)(0x06));
+//   greenT.update_pwm(1,(uint8_t)(0xd8));
+//   blueT.update_pwm(1,(uint8_t)(0x15));
+//   
    redT.delay(100); 
    
    redT.invert_pwm(1);

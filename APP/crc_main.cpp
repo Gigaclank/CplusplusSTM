@@ -13,7 +13,8 @@
 #include <iostream>
 #include "api_system_startup.h"
 #include "crc.h"
-
+using std::cout;
+using std::hex;
 #define BUFFER_SIZE    114
 
 static const uint32_t DataBuffer[BUFFER_SIZE] =

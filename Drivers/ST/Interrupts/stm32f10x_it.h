@@ -16,7 +16,9 @@
 #include "stm32f10x_exti.h"
 #include "stm32f10x_tim.h"
 #include "timer.h"
-
+#ifdef __cplusplus
+ extern "C" {
+#endif 
 extern uint32_t SysTicTimer;
 extern void (*exti_callback[16])(void);
 extern void (*timer_callback[18])(void);
@@ -30,7 +32,7 @@ void BusFaultException(void);
 void UsageFaultException(void);
 void DebugMonitor(void);
 void SVCHandler(void);
-void PendSVC(void);
+void PendSV_Handler(void);
 void SysTick_Handler(void);
 void WWDG_IRQHandler(void);
 void PVD_IRQHandler(void);
@@ -104,6 +106,9 @@ void TIM1_TRG_COM_TIM11_IRQHandler(void);
 void TIM8_BRK_TIM12_IRQHandler(void);
 void TIM8_UP_TIM13_IRQHandler(void);
 void TIM8_TRG_COM_TIM14_IRQHandler(void);
+#ifdef __cplusplus
+}
+#endif 
 #endif /* _STM32F10x_IT_H */
 
 /*

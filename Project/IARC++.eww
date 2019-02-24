@@ -1,10 +1,51 @@
-<?xml version="1.0" encoding="iso-8859-1"?>
-
+<?xml version="1.0" encoding="UTF-8"?>
 <workspace>
-  <project>
-    <path>$WS_DIR$\IARC++.ewp</path>
-  </project>
-  <batchBuild/>
+    <project>
+        <path>$WS_DIR$\IARC++.ewp</path>
+    </project>
+    <batchBuild>
+        <batchDefinition>
+            <name>Complete Build</name>
+            <member>
+                <project>IARC++</project>
+                <configuration>ADCExample</configuration>
+            </member>
+            <member>
+                <project>IARC++</project>
+                <configuration>BKPExample</configuration>
+            </member>
+            <member>
+                <project>IARC++</project>
+                <configuration>CRCExample</configuration>
+            </member>
+            <member>
+                <project>IARC++</project>
+                <configuration>GPIOExample</configuration>
+            </member>
+            <member>
+                <project>IARC++</project>
+                <configuration>IWDGExample</configuration>
+            </member>
+            <member>
+                <project>IARC++</project>
+                <configuration>PWMExample</configuration>
+            </member>
+            <member>
+                <project>IARC++</project>
+                <configuration>RTCExample</configuration>
+            </member>
+            <member>
+                <project>IARC++</project>
+                <configuration>SPIExample</configuration>
+            </member>
+            <member>
+                <project>IARC++</project>
+                <configuration>TimerExample</configuration>
+            </member>
+            <member>
+                <project>IARC++</project>
+                <configuration>UARTExample</configuration>
+            </member>
+        </batchDefinition>
+    </batchBuild>
 </workspace>
-
-

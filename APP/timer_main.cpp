@@ -15,7 +15,7 @@
 #include "gpio.h"
 #include "uart.h"
 #include "timer.h"
-
+using std::cout;
 void button_handler(void);
 void timer_intterupt(void);
 TIMER *tim;

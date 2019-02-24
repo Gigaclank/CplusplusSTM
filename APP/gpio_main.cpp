@@ -15,7 +15,7 @@
 #include "gpio.h"
 #include "uart.h"
 #include "timer.h"
-
+using std::cout;
 void button_handler(void);
 GPIO btn(GPIOC, GPIO_Pin_5);
 GPIO r(GPIOF, GPIO_Pin_6, GPIO_Mode_Out_OD);

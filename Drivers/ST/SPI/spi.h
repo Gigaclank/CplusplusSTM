@@ -11,12 +11,13 @@
  */
 #ifndef _SPI_H
 #define _SPI_H
-
+#include <iostream>
 #include "stm32f10x.h"
 #include "stm32f10x_spi.h"
 #include "stm32f10x_gpio.h"
 #include "stm32f10x_rcc.h"
 #include "gpio.h"
+using std::cout;
 
 typedef enum spi_mode
 {

@@ -13,6 +13,7 @@
 #include <iostream>
 #include "api_system_startup.h"
 #include "bkp.h"
+using std::cout;
 
 int main()
 {
