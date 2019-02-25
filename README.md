@@ -1,8 +1,8 @@
-[![GitHub issues](https://img.shields.io/github/issues/Gigaclank/STM-Drivers.svg?style=popout)](https://github.com/Gigaclank/CplusplusSTM/issues)
-[![GitHub forks](https://img.shields.io/github/forks/Gigaclank/STM-Drivers.svg?style=popout)](https://github.com/Gigaclank/CplusplusSTM/network)
-[![GitHub stars](https://img.shields.io/github/stars/Gigaclank/STM-Drivers.svg?style=popout)](https://github.com/Gigaclank/CplusplusSTM/stargazers)
-[![GitHub license](https://img.shields.io/github/license/Gigaclank/STM-Drivers.svg?style=popout)](https://github.com/Gigaclank/CplusplusSTM/blob/master/LICENSE.txt)
-[![Github all releases](https://img.shields.io/github/downloads/Gigaclank/STM-Drivers/total.svg)](https://github.com/Gigaclank/CplusplusSTM)
+[![GitHub issues](https://img.shields.io/github/issues/Gigaclank/CplusplusSTM.svg?style=popout)](https://github.com/Gigaclank/CplusplusSTM/issues)
+[![GitHub forks](https://img.shields.io/github/forks/Gigaclank/CplusplusSTM.svg?style=popout)](https://github.com/Gigaclank/CplusplusSTM/network)
+[![GitHub stars](https://img.shields.io/github/stars/Gigaclank/CplusplusSTM.svg?style=popout)](https://github.com/Gigaclank/CplusplusSTM/stargazers)
+[![GitHub license](https://img.shields.io/github/license/Gigaclank/CplusplusSTM.svg?style=popout)](https://github.com/Gigaclank/CplusplusSTM/blob/master/LICENSE.txt)
+[![Github all releases](https://img.shields.io/github/downloads/Gigaclank/CplusplusSTM/total.svg)](https://github.com/Gigaclank/CplusplusSTM)
 ---
 # README #
 Welcome to STM32-Drivers - a C++ variation on the standard peripheral drivers. 
