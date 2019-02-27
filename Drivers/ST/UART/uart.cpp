@@ -99,13 +99,16 @@ void USART::setup_nvic(void)
         type = USART1_IRQn;
     else if (this->_uart == USART2)
         type = USART2_IRQn;
+#if    defined(STM32F10X_MD) || defined(STM32F10X_HD) || defined(STM32F10X_XL)
     else if (this->_uart == USART3)
         type = USART3_IRQn;
+#if defined(STM32F10X_HD) || defined(STM32F10X_XL)
     else if (this->_uart == UART4)
         type = UART4_IRQn;
     else if (this->_uart == UART5)
         type = UART5_IRQn;
-
+#endif
+#endif
     // the interrupt is enabled when first byte is txed
 
     NVIC_InitStructure.NVIC_IRQChannel = type;

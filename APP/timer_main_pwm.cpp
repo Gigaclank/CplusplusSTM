@@ -32,8 +32,8 @@ int main()
   greenT.set_max_duty(1,255);
   blueT.set_max_duty(1,255);
   
-  redT.setup_pwm(1,255);
-  greenT.setup_pwm(1,131);
+  redT.setup_pwm(1,0x3a);
+  greenT.setup_pwm(1,0x3a);
   blueT.setup_pwm(1,0);
   
   while (1)

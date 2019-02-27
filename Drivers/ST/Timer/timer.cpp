@@ -39,7 +39,11 @@ TIMER::TIMER(TIM_TypeDef *TIMx, float S)
   if (this->_TIMx == TIM1)
   {
     timerPeriph = RCC_APB2Periph_TIM1;
+#if !defined(STM32F10X_MD) && !defined(STM32F10X_HD) && !defined(STM32F10X_XL)
+    IrqChannel = TIM1_UP_IRQn;
+#else
     IrqChannel = TIM1_UP_TIM10_IRQn;
+#endif
     this->freq = RCC_Clocks.PCLK2_Frequency;
   }
   else if (this->_TIMx == TIM2)
@@ -54,12 +58,14 @@ TIMER::TIMER(TIM_TypeDef *TIMx, float S)
     IrqChannel = TIM3_IRQn;
     this->freq = RCC_Clocks.PCLK1_Frequency;
   }
+#if defined(STM32F10X_MD) || defined(STM32F10X_HD) || defined(STM32F10X_XL)
   else if (this->_TIMx == TIM4)
   {
     timerPeriph = RCC_APB1Periph_TIM4;
     IrqChannel = TIM4_IRQn;
     this->freq = RCC_Clocks.PCLK1_Frequency;
   }
+#if defined(STM32F10X_HD) || defined(STM32F10X_XL)
   else if (this->_TIMx == TIM5)
   {
     timerPeriph = RCC_APB1Periph_TIM5;
@@ -78,6 +84,7 @@ TIMER::TIMER(TIM_TypeDef *TIMx, float S)
     IrqChannel = TIM7_IRQn;
     this->freq = RCC_Clocks.PCLK1_Frequency;
   }
+#if defined(STM32F10X_XL)
   else if (this->_TIMx == TIM8)
   {
     timerPeriph = RCC_APB2Periph_TIM8;
@@ -120,6 +127,9 @@ TIMER::TIMER(TIM_TypeDef *TIMx, float S)
     IrqChannel = TIM8_TRG_COM_TIM14_IRQn;
     this->freq = RCC_Clocks.PCLK1_Frequency;
   }
+#endif
+#endif
+#endif
 
   if (this->_TIMx == TIM1 || this->_TIMx == TIM8 || this->_TIMx == TIM9 || this->_TIMx == TIM10 || this->_TIMx == TIM11 || this->_TIMx == TIM15 || this->_TIMx == TIM16)
   {
@@ -175,7 +185,13 @@ TIMER::~TIMER()
   if (this->_TIMx == TIM1)
   {
     timerPeriph = RCC_APB2Periph_TIM1;
+    
+#if !defined(STM32F10X_MD) && !defined(STM32F10X_HD) && !defined(STM32F10X_XL)
+    IrqChannel = TIM1_UP_IRQn;
+#else
     IrqChannel = TIM1_UP_TIM10_IRQn;
+    
+#endif
     timer_callback[0] = 0;
     timer[0] = 0;
   }
@@ -193,6 +209,7 @@ TIMER::~TIMER()
     timer_callback[2] = 0;
     timer[2] = 0;
   }
+#if defined(STM32F10X_MD) || defined(STM32F10X_HD) || defined(STM32F10X_XL)
   else if (this->_TIMx == TIM4)
   {
     timerPeriph = RCC_APB1Periph_TIM4;
@@ -200,6 +217,7 @@ TIMER::~TIMER()
     timer_callback[3] = 0;
     timer[3] = 0;
   }
+  #if defined(STM32F10X_HD) || defined(STM32F10X_XL)
   else if (this->_TIMx == TIM5)
   {
     timerPeriph = RCC_APB1Periph_TIM5;
@@ -221,6 +239,7 @@ TIMER::~TIMER()
     timer_callback[6] = 0;
     timer[6] = 0;
   }
+#if defined(STM32F10X_XL)
   else if (this->_TIMx == TIM8)
   {
     timerPeriph = RCC_APB2Periph_TIM8;
@@ -247,7 +266,7 @@ TIMER::~TIMER()
     timerPeriph = RCC_APB2Periph_TIM11;
     IrqChannel = TIM1_TRG_COM_TIM11_IRQn;
     timer_callback[10] = 0;
-    timer[11] = 0;
+    timer[10] = 0;
   }
   else if (this->_TIMx == TIM12)
   {
@@ -270,6 +289,9 @@ TIMER::~TIMER()
     timer_callback[13] = 0;
     timer[13] = 0;
   }
+#endif
+#endif
+#endif
 
   if (this->_TIMx == TIM1 || this->_TIMx == TIM12 || this->_TIMx == TIM15 || this->_TIMx == TIM16)
   {
