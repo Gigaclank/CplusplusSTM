@@ -1,24 +1,24 @@
 /**
- * @file timer.cpp
- * @author Aaron Lynn ()
- * @brief 
- * @version 0.1
- * @date 2018-12-08
- * 
- * @copyright Copyright (c) Aaron Lynn 2018
- * All Rights Reserved
- * 
- */
+* @file timer.cpp
+* @author Aaron Lynn ()
+* @brief 
+* @version 0.1
+* @date 2018-12-08
+* 
+* @copyright Copyright (c) Aaron Lynn 2018
+* All Rights Reserved
+* 
+*/
 #include "timer.h"
 
 TIMER *timer[16];
 /**
- * @brief Construct a new TIMER::TIMER object
- * 
- * @param TIMx 
- * @param S 
- */
-TIMER::TIMER(TIM_TypeDef *TIMx, float S)
+* @brief Construct a new TIMER::TIMER object
+* 
+* @param TIMx 
+* @param S 
+*/
+TIMER::TIMER(TIM_TypeDef *TIMx, double S)
 {
   RCC_ClocksTypeDef RCC_Clocks;
   NVIC_InitTypeDef NVIC_InitStructure;
@@ -131,7 +131,8 @@ TIMER::TIMER(TIM_TypeDef *TIMx, float S)
 #endif
 #endif
 
-  if (this->_TIMx == TIM1 || this->_TIMx == TIM8 || this->_TIMx == TIM9 || this->_TIMx == TIM10 || this->_TIMx == TIM11 || this->_TIMx == TIM15 || this->_TIMx == TIM16)
+  //  if (this->_TIMx == TIM1 || this->_TIMx == TIM8 || this->_TIMx == TIM9 || this->_TIMx == TIM10 || this->_TIMx == TIM11 || this->_TIMx == TIM15 || this->_TIMx == TIM16)
+  if (which_source(this->_TIMx))
   {
     RCC_APB2PeriphClockCmd(timerPeriph, ENABLE); /* TIM2 Periph clock enable */
   }
@@ -140,14 +141,12 @@ TIMER::TIMER(TIM_TypeDef *TIMx, float S)
     RCC_APB1PeriphClockCmd(timerPeriph, ENABLE);
   }
 
-  float TimeS = S; // / 1000.0);
-  TimeS = 1 / TimeS;
-  uint32_t u32_PrescalerValue = (uint32_t)(TimeS * 1000); //100000;
-  uint32_t u32_TimerValue = (uint32_t)TimeS;
-  uint16_t u16_PeriodValue = (uint16_t)(u32_PrescalerValue / u32_TimerValue);
+  uint16_t u16_PrescalerValue = 0;
+  uint16_t u16_PeriodValue = 0;
+  calculate_values(this->_TIMx, (1 / S), &u16_PeriodValue, &u16_PrescalerValue);
 
   TIM_TimeBaseStructInit(&this->TIM_TimeBaseStructure);
-  this->TIM_TimeBaseStructure.TIM_Prescaler = (uint16_t)(freq / u32_PrescalerValue) - 1; /* Prescale to 1Mhz */
+  this->TIM_TimeBaseStructure.TIM_Prescaler = u16_PrescalerValue - 1; /* Prescale to 1Mhz */
   this->TIM_TimeBaseStructure.TIM_Period = (uint16_t)(u16_PeriodValue)-1;
   this->TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
   this->TIM_TimeBaseStructure.TIM_ClockDivision = 0;
@@ -168,11 +167,11 @@ TIMER::TIMER(TIM_TypeDef *TIMx, float S)
 }
 
 /**
- * @brief Deconstruct TIMER object
- * 
- * @param TIMx 
- * @param ms 
- */
+* @brief Deconstruct TIMER object
+* 
+* @param TIMx 
+* @param ms 
+*/
 TIMER::~TIMER()
 {
   NVIC_InitTypeDef NVIC_InitStructure;
@@ -185,12 +184,12 @@ TIMER::~TIMER()
   if (this->_TIMx == TIM1)
   {
     timerPeriph = RCC_APB2Periph_TIM1;
-    
+
 #if !defined(STM32F10X_MD) && !defined(STM32F10X_HD) && !defined(STM32F10X_XL)
     IrqChannel = TIM1_UP_IRQn;
 #else
     IrqChannel = TIM1_UP_TIM10_IRQn;
-    
+
 #endif
     timer_callback[0] = 0;
     timer[0] = 0;
@@ -217,7 +216,7 @@ TIMER::~TIMER()
     timer_callback[3] = 0;
     timer[3] = 0;
   }
-  #if defined(STM32F10X_HD) || defined(STM32F10X_XL)
+#if defined(STM32F10X_HD) || defined(STM32F10X_XL)
   else if (this->_TIMx == TIM5)
   {
     timerPeriph = RCC_APB1Periph_TIM5;
@@ -293,14 +292,11 @@ TIMER::~TIMER()
 #endif
 #endif
 
-  if (this->_TIMx == TIM1 || this->_TIMx == TIM12 || this->_TIMx == TIM15 || this->_TIMx == TIM16)
-  {
+  //  if (this->_TIMx == TIM1 || this->_TIMx == TIM12 || this->_TIMx == TIM15 || this->_TIMx == TIM16)
+  if (which_source(this->_TIMx))
     RCC_APB2PeriphClockCmd(timerPeriph, DISABLE); /* TIM2 Periph clock enable */
-  }
   else
-  {
     RCC_APB1PeriphClockCmd(timerPeriph, DISABLE);
-  }
 
   NVIC_InitStructure.NVIC_IRQChannel = IrqChannel;
   NVIC_InitStructure.NVIC_IRQChannelCmd = DISABLE;
@@ -314,10 +310,10 @@ TIMER::~TIMER()
 }
 
 /**
- * @brief attach a callback handler to the timer
- * 
- * @param callback 
- */
+* @brief attach a callback handler to the timer
+* 
+* @param callback 
+*/
 void TIMER::attach_intterupt(void (*callback)(void))
 {
 
@@ -403,10 +399,10 @@ void TIMER::attach_intterupt(void (*callback)(void))
   }
 }
 /**
- * @brief delay based on timer
- * 
- * @param delay_value 
- */
+* @brief delay based on timer
+* 
+* @param delay_value 
+*/
 void TIMER::delay(uint16_t delay_value)
 {
   this->cnt = delay_value;
@@ -414,9 +410,9 @@ void TIMER::delay(uint16_t delay_value)
     ;
 }
 /**
- * @brief Timer called in timer interrupt
- * 
- */
+* @brief Timer called in timer interrupt
+* 
+*/
 void TIMER::cntr(void)
 {
   if (this->cnt > 0)
@@ -424,19 +420,19 @@ void TIMER::cntr(void)
   this->runTime++;
 }
 /**
- * @brief setup basic pwm
- * 
- */
+* @brief setup basic pwm
+* 
+*/
 void TIMER::setup_pwm(void)
 {
   TIM_CtrlPWMOutputs(this->_TIMx, ENABLE);
 }
 
 /**
- * @brief setup a pwm timer on a specific channel
- * 
- * @param ch 
- */
+* @brief setup a pwm timer on a specific channel
+* 
+* @param ch 
+*/
 void TIMER::setup_pwm(uint8_t ch, uint8_t duty)
 {
 
@@ -463,10 +459,10 @@ void TIMER::setup_pwm(uint8_t ch, uint8_t duty)
   TIM_CtrlPWMOutputs(this->_TIMx, ENABLE);
 }
 /**
- * @brief invert the pwm signal for a specfic channel
- * 
- * @param ch 
- */
+* @brief invert the pwm signal for a specfic channel
+* 
+* @param ch 
+*/
 void TIMER::invert_pwm(uint8_t ch)
 {
   void (*init[4])(TIM_TypeDef *, TIM_OCInitTypeDef *) = {
@@ -485,11 +481,11 @@ void TIMER::invert_pwm(uint8_t ch)
 }
 
 /**
- * @brief updae duty cycle of pwm
- * 
- * @param ch 
- * @param duty 
- */
+* @brief updae duty cycle of pwm
+* 
+* @param ch 
+* @param duty 
+*/
 void TIMER::update_pwm(uint8_t ch, uint8_t duty)
 {
   void (*update[4])(TIM_TypeDef *, uint16_t) = {
@@ -501,11 +497,11 @@ void TIMER::update_pwm(uint8_t ch, uint8_t duty)
   update[ch - 1](this->_TIMx, (uint16_t)(this->TIM_TimeBaseStructure.TIM_Period * duty / duty_max[ch - 1]));
 }
 /**
- * @brief update duty cycle of pwm
- * 
- * @param ch 
- * @param duty 
- */
+* @brief update duty cycle of pwm
+* 
+* @param ch 
+* @param duty 
+*/
 void TIMER::update_pwm(uint8_t ch, float duty)
 {
   void (*update[4])(TIM_TypeDef *, uint16_t) = {
@@ -517,10 +513,10 @@ void TIMER::update_pwm(uint8_t ch, float duty)
   update[ch - 1](this->_TIMx, (uint16_t)(this->TIM_TimeBaseStructure.TIM_Period * duty / duty_max[ch - 1]));
 }
 /**
- * @brief set the max duty for all channels
- * 
- * @param max 
- */
+* @brief set the max duty for all channels
+* 
+* @param max 
+*/
 void TIMER::set_max_duty(uint8_t max)
 {
   this->duty_max[0] = max;
@@ -529,12 +525,239 @@ void TIMER::set_max_duty(uint8_t max)
   this->duty_max[3] = max;
 }
 /**
- * @brief set the max duty for a sepcfic channel
- * 
- * @param ch 
- * @param max 
- */
+* @brief set the max duty for a sepcfic channel
+* 
+* @param ch 
+* @param max 
+*/
 void TIMER::set_max_duty(uint8_t ch, uint8_t max)
 {
   this->duty_max[ch - 1] = max;
+}
+
+/**
+ * @brief calculate the values required to obtain the frequency
+ * 
+ * @param TIMx 
+ * @param freq 
+ * @param arr 
+ * @param psc 
+ */
+void TIMER::calculate_values(TIM_TypeDef *TIMx, float freq, uint16_t *arr, uint16_t *psc)
+{
+
+  RCC_ClocksTypeDef RCC_Clocks;
+  ScaleFactor m_scale;
+  unsigned int period = PeriodFromFrequency(freq, &m_scale);
+  ;
+
+  unsigned int scale = ((unsigned int)m_scale);
+  unsigned int clk;
+  unsigned int prescaler;
+
+  unsigned int PWM1_CLK_HZ;
+  unsigned int PWM2_CLK_HZ;
+  unsigned int ONE_MHZ = 1000000;
+  unsigned int PWM1_CLK_MHZ = 72;
+  unsigned int PWM2_CLK_MHZ = 36;
+  unsigned int PWM_MAX_CLK_MHZ;
+
+  unsigned int SYSTEM_CYCLE_CLOCK_HZ = 72000000;
+  unsigned int SYSTEM_APB1_CLOCK_HZ = 72000000;
+  unsigned int SYSTEM_APB2_CLOCK_HZ = 36000000;
+
+  RCC_GetClocksFreq(&RCC_Clocks);
+  SYSTEM_CYCLE_CLOCK_HZ = RCC_Clocks.SYSCLK_Frequency;
+  SYSTEM_APB1_CLOCK_HZ = RCC_Clocks.PCLK1_Frequency;
+  SYSTEM_APB2_CLOCK_HZ = RCC_Clocks.PCLK2_Frequency;
+  PWM1_CLK_MHZ = SYSTEM_APB1_CLOCK_HZ / ONE_MHZ;
+  PWM2_CLK_MHZ = SYSTEM_APB2_CLOCK_HZ / ONE_MHZ;
+
+  if (SYSTEM_APB1_CLOCK_HZ == SYSTEM_CYCLE_CLOCK_HZ)
+    PWM1_CLK_HZ = (SYSTEM_APB1_CLOCK_HZ);
+  else
+  {
+    PWM1_CLK_HZ = (SYSTEM_APB1_CLOCK_HZ * 2);
+    PWM1_CLK_MHZ = (PWM1_CLK_HZ / ONE_MHZ);
+  }
+  if (SYSTEM_APB2_CLOCK_HZ == SYSTEM_CYCLE_CLOCK_HZ)
+    PWM2_CLK_HZ = (SYSTEM_APB2_CLOCK_HZ);
+  else
+  {
+    PWM2_CLK_HZ = (SYSTEM_APB2_CLOCK_HZ * 2);
+    PWM2_CLK_MHZ = (PWM2_CLK_HZ / ONE_MHZ);
+  }
+  if (PWM2_CLK_MHZ > PWM1_CLK_MHZ)
+    PWM_MAX_CLK_MHZ = PWM2_CLK_MHZ;
+  else
+    PWM_MAX_CLK_MHZ = PWM1_CLK_MHZ;
+
+  // APB2
+  //determine which clock the timer uses
+  if (which_source(TIMx))
+    clk = PWM2_CLK_HZ;
+  else
+    clk = PWM1_CLK_HZ;
+
+  prescaler = clk / scale;
+  // scale in MHz
+  unsigned int sm = scale / ONE_MHZ;
+  if (which_source(TIMx))
+    clk = PWM2_CLK_MHZ;
+  else
+    clk = PWM1_CLK_MHZ;
+
+  cout << "Freq: " << freq << " Hz";
+
+  if (prescaler == 0)
+  {
+    if (period > 0xFFFFFFFF / PWM_MAX_CLK_MHZ)
+    {
+      // avoid overflow
+      prescaler = clk;
+      period /= sm;
+    }
+    else
+    {
+      prescaler = 1;
+      period = period * clk / sm;
+    }
+  }
+  else
+  {
+    while (prescaler > 0x10000)
+    {
+      prescaler >>= 1;
+      period <<= 1;
+    }
+  }
+  if (TIMx != TIM2 && TIMx != TIM5)
+  //  if (timer != 2 && timer != 5)
+  {
+    // 16 bit timer
+    while (period >= 0x10000)
+    {
+      // period too large
+      prescaler <<= 1;
+      period >>= 1;
+    }
+  }
+  cout << " PSC: " << prescaler;
+  cout << " ARR: " << (period + 1) << "\r\n";
+
+  *arr = (period + 1);
+  *psc = prescaler;
+}
+
+/**
+ * @brief Calculate the Period required for the frequency.
+ * 
+ * @param f 
+ * @param scale 
+ * @return unsigned int 
+ */
+unsigned int TIMER::PeriodFromFrequency(double f, ScaleFactor *scale)
+{
+  if (f >= 1000.0)
+  {
+    *scale = Nanoseconds;
+    return (unsigned int)((1000000000.0 / f) + 0.5);
+  }
+  if (f >= 1.0)
+  {
+    *scale = Microseconds;
+    return (unsigned int)((1000000.0 / f) + 0.5);
+  }
+  *scale = Milliseconds;
+  return (unsigned int)((1000.0 / f) + 0.5);
+}
+
+/**
+ * @brief determine which source should be used for clock source.
+ * 
+ * @param timer 
+ * @return int 
+ */
+int TIMER::which_source(int timer)
+{
+  if (timer == 1)
+    return 1;
+  else if (timer == 2)
+    return 0;
+  else if (timer == 3)
+    return 0;
+#if defined(STM32F10X_MD) || defined(STM32F10X_HD) || defined(STM32F10X_XL)
+  else if (timer == 4)
+    return 0;
+#if defined(STM32F10X_HD) || defined(STM32F10X_XL)
+  else if (timer == 5)
+    return 0;
+  else if (timer == 6)
+    return 0;
+  else if (timer == 7)
+    return 0;
+#if defined(STM32F10X_XL)
+  else if (timer == 8)
+    return 1;
+  else if (timer == 9)
+    return 1;
+  else if (timer == 10)
+    return 1;
+  else if (timer == 11)
+    return 1;
+  else if (timer == 12)
+    return 0;
+  else if (timer == 13)
+    return 0;
+  else if (timer == 14)
+    return 0;
+#endif
+#endif
+#endif
+  return 0;
+}
+
+/**
+ * @brief determine which source should be used for clock source.
+ * 
+ * @param timer 
+ * @return int 
+ */
+int TIMER::which_source(TIM_TypeDef *timer)
+{
+  if (timer == TIM1)
+    return 1;
+  else if (timer == TIM2)
+    return 0;
+  else if (timer == TIM3)
+    return 0;
+#if defined(STM32F10X_MD) || defined(STM32F10X_HD) || defined(STM32F10X_XL)
+  else if (timer == TIM4)
+    return 0;
+#if defined(STM32F10X_HD) || defined(STM32F10X_XL)
+  else if (timer == TIM5)
+    return 0;
+  else if (timer == TIM6)
+    return 0;
+  else if (timer == TIM7)
+    return 0;
+#if defined(STM32F10X_XL)
+  else if (timer == TIM8)
+    return 1;
+  else if (timer == TIM9)
+    return 1;
+  else if (timer == TIM10)
+    return 1;
+  else if (timer == TIM11)
+    return 1;
+  else if (timer == TIM12)
+    return 0;
+  else if (timer == TIM13)
+    return 0;
+  else if (timer == TIM14)
+    return 0;
+#endif
+#endif
+#endif
+  return 0;
 }

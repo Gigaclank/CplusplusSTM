@@ -38,11 +38,6 @@ int main()
   
   while (1)
   {  
-//    
-//   redT.update_pwm(1,(uint8_t)(0x06));
-//   greenT.update_pwm(1,(uint8_t)(0xd8));
-//   blueT.update_pwm(1,(uint8_t)(0x15));
-//   
    redT.delay(100); 
    
    redT.invert_pwm(1);

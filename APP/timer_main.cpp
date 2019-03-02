@@ -19,7 +19,7 @@ using std::cout;
 void button_handler(void);
 void timer_intterupt(void);
 TIMER *tim;
-
+GPIO t(GPIOF, GPIO_Pin_6, GPIO_Mode_Out_OD);
 int main()
 {
   uint8_t current_timer = 0;
@@ -41,21 +41,26 @@ int main()
     0
   };
   api_system_start();
+  
+   tim = new TIMER(timers[current_timer],0.000001);//100ms
+   tim->attach_intterupt(timer_intterupt);
+  
   while (1)
   {   
    
-    tim = new TIMER(timers[current_timer],0.1);//100ms
-    tim->attach_intterupt(timer_intterupt);
-    tim->delay(1);
-    
-    printf("%d\r\n",current_timer+1);
-    if(timers[current_timer+1] == 0) current_timer = 0;
-    else current_timer ++;
-    delete tim;
+//    tim = new TIMER(timers[current_timer],0.1);//100ms
+//    tim->attach_intterupt(timer_intterupt);
+//    tim->delay(1);
+//    
+//    printf("%d\r\n",current_timer+1);
+//    if(timers[current_timer+1] == 0) current_timer = 0;
+//    else current_timer ++;
+//    delete tim;
     
     
   }
 }
 void timer_intterupt(void){
   cout<<"Tick\r\n";
+  t.write(!t.read());
 }

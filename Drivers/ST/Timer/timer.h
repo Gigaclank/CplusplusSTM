@@ -23,6 +23,19 @@
 #include "stm32f10x_it.h"
 #include "misc.h"
 
+using std::cout;
+
+typedef enum ScaleFactor{
+  Microseconds = 0xf4240,
+  Milliseconds = 0x3e8,
+  Nanoseconds = 0x3b9aca00
+}ScaleFactor;
+
+//typedef enum Clock{
+//  APB1 = 36000000,
+//  APB2 = 72000000,
+//}Clock;
+
 class TIMER
 {
 private:
@@ -33,9 +46,13 @@ private:
   uint32_t runTime;
   uint32_t freq;
   uint8_t duty_max[4];
+  void calculate_values(TIM_TypeDef *TIMx,float freq,uint16_t *arr, uint16_t *psc);
+  unsigned int PeriodFromFrequency( double f, ScaleFactor *scale);
+  int which_source(int timer);
+  int which_source(TIM_TypeDef *timer);
 
 public:
-  TIMER(TIM_TypeDef *TIMx, float ms);
+  TIMER(TIM_TypeDef *TIMx, double S);
   ~TIMER();
   void attach_intterupt(void (*callback)(void));
   void delay(uint16_t delay_value);
@@ -48,7 +65,8 @@ public:
   void set_max_duty(uint8_t max);
   void set_max_duty(uint8_t ch, uint8_t max);
 };
-
 extern TIMER *timer[16];
+
+
 
 #endif
