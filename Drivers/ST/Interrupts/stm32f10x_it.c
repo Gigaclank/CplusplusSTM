@@ -15,15 +15,14 @@
 #include "stm32f10x_it.h"
 #include "api_system_startup.h"
 #include "uart.h"
-//#ifdef __cplusplus
-//extern "C" {
-//#endif
+#include "can.h"
+
 void (*exti_callback[16])(void);
 void (*timer_callback[18])(void);
 void (*rtc_callback[2])(void);
 void (*uart_callback[5])(void);
 
-void NMIException(void)
+void NMI_Handler(void)
 {
   while (1)
   {
@@ -243,19 +242,37 @@ void USB_HP_CAN1_TX_IRQHandler(void)
 }
 void USB_LP_CAN1_RX0_IRQHandler(void)
 {
+#ifndef STM32F10X_CL
+  can_interrupt(CAN1);
+#endif
 }
-void CAN1_RX1_IRQHandler(void)
+
+#ifndef STM32F10X_CL
+void CAN1_RX0_IRQHandler(void)
 {
+  can_interrupt(CAN1);
+}
+void CAN1_SCE_IRQHandler(void)
+{
+  
+}
+
+#else
+void CAN1_RX0_IRQHandler(void)
+{
+  can_interrupt(CAN1);
 }
 void CAN1_SCE_IRQHandler(void)
 {
 }
-void CAN_RX1_IRQHandler(void)
+void CAN2_RX0_IRQHandler(void)
+{
+  can_interrupt(CAN2);
+}
+void CAN2_SCE_IRQHandler(void)
 {
 }
-void CAN_SCE_IRQHandler(void)
-{
-}
+#endif
 /* Timers */
 void TIM1_BRK_TIM9_IRQHandler(void)
 {
@@ -566,9 +583,7 @@ void SDIO_IRQHandler(void)
 {
 }
 
-//#ifdef __cplusplus
-//}
-//#endif
+
 /*
 *********************************************************************************************************
 *                                           End of stm32f10x_it.c

@@ -54,6 +54,10 @@
                 <project>IARC++</project>
                 <configuration>DACExample</configuration>
             </member>
+            <member>
+                <project>IARC++</project>
+                <configuration>CANExmple</configuration>
+            </member>
         </batchDefinition>
     </batchBuild>
 </workspace>

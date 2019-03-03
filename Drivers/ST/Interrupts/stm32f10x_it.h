@@ -25,7 +25,7 @@ extern void (*timer_callback[18])(void);
 extern void (*rtc_callback[2])(void);
 
 void ResetHandler(void);
-void NMIException(void);
+void NMI_Handler(void);
 void HardFaultException(void);
 void MemManageException(void);
 void BusFaultException(void);
@@ -98,8 +98,10 @@ void DMA2_Channel4_5_IRQHandler(void);
 
 void USB_HP_CAN1_TX_IRQHandler(void);
 void USB_LP_CAN1_RX0_IRQHandler(void);
-void CAN1_RX1_IRQHandler(void);
+void CAN1_RX0_IRQHandler(void);
 void CAN1_SCE_IRQHandler(void);
+void CAN2_RX0_IRQHandler(void);
+void CAN2_SCE_IRQHandler(void);
 void TIM1_BRK_TIM9_IRQHandler(void);
 void TIM1_UP_TIM10_IRQHandler(void);
 void TIM1_TRG_COM_TIM11_IRQHandler(void);

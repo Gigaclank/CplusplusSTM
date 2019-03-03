@@ -17,10 +17,11 @@
 #include "timer.h"
 using std::cout;
 void button_handler(void);
-GPIO btn(GPIOC, GPIO_Pin_5);
-GPIO r(GPIOF, GPIO_Pin_6, GPIO_Mode_Out_OD);
-GPIO g(GPIOF, GPIO_Pin_7, GPIO_Mode_Out_OD);
-GPIO b(GPIOF, GPIO_Pin_8, GPIO_Mode_Out_OD);
+GPIO btn(GPIOB, GPIO_Pin_9);
+GPIO r(GPIOD, GPIO_Pin_3, GPIO_Mode_Out_PP);
+GPIO g(GPIOD, GPIO_Pin_7, GPIO_Mode_Out_PP);
+GPIO b(GPIOD, GPIO_Pin_4, GPIO_Mode_Out_PP);
+GPIO o(GPIOD, GPIO_Pin_13, GPIO_Mode_Out_PP);
   
 int main()
 {
@@ -36,4 +37,5 @@ void button_handler(void){
   r.write(!r.read());
   g.write(!g.read());
   b.write(!b.read());
+  o.write(!o.read());
 }
